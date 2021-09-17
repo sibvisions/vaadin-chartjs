@@ -1,0 +1,108 @@
+<project name="Charts and Gauges" default="start.complete">
+
+	<!--
+		*****************************************************************
+		* information
+		*****************************************************************
+		-->
+
+	<description>
+		Chart and gauge js implementation wrapper.
+	</description>
+
+	<!--
+		*****************************************************************
+		* global properties
+		*****************************************************************
+		-->
+
+	<property name="jar.name" value="chart_js_wrapper.jar" />
+
+	<!--
+		*****************************************************************
+		* general properties
+		*****************************************************************
+		-->
+
+	<property name="ant" location="${basedir}/ant"/>
+	<property name="build" location="${basedir}/build"/>
+	<property name="buildnumber" location="${ant}/buildnumber"/>
+	<property name="lib.version" value="1.0"/>
+	<property name="lib.title" value="core"/>
+	<property name="build" value="${basedir}/build" />
+	<property name="temp" location="${build}/temp" />
+	<property name="release" location="${build}/release" />
+	<property name="src" value="${basedir}/src/main/java" />
+	<property name="resources" value="${basedir}/src/main/resources" />
+	<property name="classes" value="${temp}/classes" />
+	
+	<!--
+	  *****************************************************************
+	  * external taskdefinitions
+	  *****************************************************************
+	  -->
+	  
+	  <!-- build number support -->
+	  
+	  <taskdef name="buildnr" classname="com.sibvisions.addons.ant.AntBuildNumber" classpath="${buildnumber}/addons.jar"/>
+
+	<!--
+		*****************************************************************
+		* INTERNAL TASKS
+		*****************************************************************
+		-->
+
+	<target name="clean.start">
+		<delete dir="${temp}" />
+		<delete dir="${release}" />
+	</target>
+
+	<target name="clean.stop">
+		<delete dir="${temp}" />
+	</target>
+
+	<target name="compile">
+		<mkdir dir="${build}" />
+		<mkdir dir="${classes}" />
+		<buildnr buildfile="${buildnumber}/buildnr.properties" version="${lib.version}" name="${lib.title}"/>
+		<javac srcdir="${src}" destdir="${classes}" includeantruntime="false" source="1.8" target="1.8" debug="off" debuglevel="source,lines">
+			<classpath>
+				<fileset dir="lib">
+					<include name="**/*.jar" />
+				</fileset>
+			</classpath>
+		</javac>
+
+		<copy todir="${classes}">
+			<fileset dir="${src}">
+				<include name="**/**" />
+
+				<exclude name="**/*.java" />
+				<exclude name="**/package.html" />
+				<exclude name="META-INF/**" />
+			</fileset>
+		</copy>
+		
+		<copy todir="${classes}">
+			<fileset dir="${resources}"/>
+		</copy>
+	</target>
+
+	<target name="jar" depends="compile">
+		<mkdir dir="${release}" />
+		<jar jarfile="${release}/${jar.name}" basedir="${classes}">
+			<manifest>
+				<attribute name="Implementation-Title" value="Charts and Gauges JS Wrapper" />
+				<attribute name="Implementation-Vendor" value="SIB Visions GmbH" />
+			</manifest>
+		</jar>
+	</target>
+
+	<!--
+		*****************************************************************
+		* PUBLIC START TASKS
+		*****************************************************************
+		-->
+
+	<target name="start.complete" depends="clean.start, jar, clean.stop" description="Creates the release jar" />
+</project>
