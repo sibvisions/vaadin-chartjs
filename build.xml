@@ -94,6 +94,7 @@
 			<manifest>
 				<attribute name="Implementation-Title" value="Charts and Gauges JS Wrapper" />
 				<attribute name="Implementation-Vendor" value="SIB Visions GmbH" />
+				<attribute name="Implementation-Version" value="b${build.number} ${build.date}"/>
 			</manifest>
 		</jar>
 	</target>
