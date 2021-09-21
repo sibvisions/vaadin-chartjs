@@ -9,3 +9,4 @@ hs_err_pid*
 /classes/
 *.iml
 ant/buildnumber/buildnr.properties
+ant/buildnumber/buildnr.properties
