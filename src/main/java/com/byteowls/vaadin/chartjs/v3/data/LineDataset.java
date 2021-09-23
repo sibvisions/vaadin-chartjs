@@ -1,7 +1,9 @@
 package com.byteowls.vaadin.chartjs.v3.data;
 
 import elemental.json.Json;
+import elemental.json.JsonArray;
 import elemental.json.JsonObject;
+import elemental.json.impl.JreJsonNull;
 
 import java.util.Arrays;
 import java.util.List;
@@ -13,7 +15,7 @@ import com.byteowls.vaadin.chartjs.v3.utils.JUtils;
  * @author michael@byteowls.com
  *
  */
-public class LineDataset extends DoubleDataset<LineDataset> {
+public class LineDataset extends ScatterDataset {
 
     private static final long serialVersionUID = -2084714266214798266L;
 
@@ -312,7 +314,10 @@ public class LineDataset extends DoubleDataset<LineDataset> {
     public JsonObject buildJson() {
         JsonObject map = Json.createObject();
         JUtils.putNotNull(map, "type", type);
-        JUtils.putNotNullNumbers(map, "data", getData());
+        
+        List<ScatterData> data = getData();
+        JUtils.putNotNullYNumbers(map, "data", data);
+        
         JUtils.putNotNull(map, "label", label);
         JUtils.putNotNull(map, "xAxisID", xAxisID);
         JUtils.putNotNull(map, "yAxisID", yAxisID);
@@ -357,7 +362,6 @@ public class LineDataset extends DoubleDataset<LineDataset> {
         return map;
     }
 
-    @Override
     public LineDataset getThis() {
         return this;
     }

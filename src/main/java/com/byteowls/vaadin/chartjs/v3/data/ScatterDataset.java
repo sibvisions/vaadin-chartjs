@@ -80,6 +80,18 @@ public class ScatterDataset implements Dataset<ScatterDataset, ScatterData> {
         data.add(new ScatterData().x(x).y(y));
         return this;
     }
+    
+    /**
+     * Add one dimensional data.
+     * @param y Y Value
+     */
+    public ScatterDataset addData(Double y) {
+        if (data == null) {
+            data = new ArrayList<>();
+        }
+        data.add(new ScatterData().y(y));
+        return this;
+    }
 
     @Override
     public ScatterDataset dataAsList(List<ScatterData> data) {
@@ -110,6 +122,45 @@ public class ScatterDataset implements Dataset<ScatterDataset, ScatterData> {
                 dataMap = new LinkedHashMap<>();
             }
             dataMap.put(label, data);
+        }
+
+        return this;
+    }
+    
+    public ScatterDataset addLabeledData(String label, Double y) {
+        if (label != null && y != null) {
+            if (labels == null) {
+                labels = new ArrayList<>();
+            }
+            if (!labels.contains(label)) {
+                labels.add(label);
+            }
+
+            if (dataMap == null) {
+                dataMap = new LinkedHashMap<>();
+            }
+            
+            ScatterData sd = dataMap.get(label);
+            
+            if (sd == null)
+            {
+                sd = new ScatterData();
+                sd.y(y);
+            }
+            else
+            {
+                Double yOriginal = sd.getY();
+                if (yOriginal == null)
+                {
+                    sd.y(y);
+                }
+                else
+                {
+                    sd.y(Double.valueOf(yOriginal.doubleValue() + y.doubleValue()));
+                }
+            }
+            
+            dataMap.put(label, sd);
         }
 
         return this;

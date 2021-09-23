@@ -11,6 +11,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
+import com.byteowls.vaadin.chartjs.v3.data.ScatterData;
+
 public abstract class JUtils {
     /**
      * Prefix for properties which are set to a callback, ie. the property value is a JavaScript statement or function
@@ -133,6 +135,20 @@ public abstract class JUtils {
                     arr.set(arr.length(), new JreJsonNull());
                 } else {
                     arr.set(arr.length(), n);
+                }
+            }
+            obj.put(key, arr);
+        }
+    }
+    
+    public static void putNotNullYNumbers(JsonObject obj, String key, List<ScatterData> listOfNumbers) {
+        if (listOfNumbers != null) {
+            JsonArray arr = Json.createArray();
+            for (ScatterData sd : listOfNumbers) {
+                if (sd == null) {
+                    arr.set(arr.length(), new JreJsonNull());
+                } else {
+                    arr.set(arr.length(), sd.getY());
                 }
             }
             obj.put(key, arr);

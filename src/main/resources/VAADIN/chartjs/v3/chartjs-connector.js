@@ -131,6 +131,7 @@ window.com_byteowls_vaadin_chartjs_v3_ChartJs = function() {
             // update config: options must be copied separately, just copying the "options" object does not work
             chartjs.config.options.legend = this.getState().configurationJson.options.legend;
             chartjs.config.options.annotation = this.getState().configurationJson.options.annotation;
+            chartjs.config.options.scales = this.getState().configurationJson.options.scales;
             chartjs.update();
         }
 

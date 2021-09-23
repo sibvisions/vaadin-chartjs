@@ -16,6 +16,8 @@ public class LinearScale extends BaseScale<LinearScale> {
     private static final long serialVersionUID = 1723253099555272809L;
 
     private LinearTicks<LinearScale> linearTicks;
+    
+    private String grace;
 
     public LinearScale() {
         type("linear");
@@ -31,6 +33,11 @@ public class LinearScale extends BaseScale<LinearScale> {
         }
         return this.linearTicks;
     }
+    
+    public LinearScale grace(String grace) {
+        this.grace = grace;
+        return this;
+    }
 
     @Override
     public LinearScale getThis() {
@@ -41,6 +48,7 @@ public class LinearScale extends BaseScale<LinearScale> {
     public JsonObject buildJson() {
         JsonObject map = super.buildJson();
         JUtils.putNotNull(map, "ticks", linearTicks);
+        JUtils.putNotNull(map, "grace", grace);
         return map;
     }
 }

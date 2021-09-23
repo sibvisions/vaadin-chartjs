@@ -2,6 +2,7 @@ package com.byteowls.vaadin.chartjs.v3.data;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.LinkedHashMap;
 import java.util.List;
 
 import com.byteowls.vaadin.chartjs.v3.utils.ColorUtils;
@@ -13,7 +14,7 @@ import elemental.json.JsonObject;
 /**
  * @author michael@byteowls.com
  */
-public class BarDataset extends DoubleDataset<BarDataset> {
+public class BarDataset extends ScatterDataset {
 
     private static final long serialVersionUID = -5049884704390777087L;
 
@@ -120,6 +121,14 @@ public class BarDataset extends DoubleDataset<BarDataset> {
         this.backgroundColor = Arrays.asList(backgroundColor);
         return this;
     }
+    
+    /**
+     * The fill color of the bars.
+     */
+    public BarDataset backgroundColor(String  backgroundColor) {
+        this.backgroundColor = Arrays.asList(backgroundColor);
+        return this;
+    }
 
     /**
      * Set random background colors for every data
@@ -133,6 +142,14 @@ public class BarDataset extends DoubleDataset<BarDataset> {
      * Bar border color.
      */
     public BarDataset borderColor(String... borderColor) {
+        this.borderColor = Arrays.asList(borderColor);
+        return this;
+    }
+    
+    /**
+     * Bar border color.
+     */
+    public BarDataset borderColor(String borderColor) {
         this.borderColor = Arrays.asList(borderColor);
         return this;
     }
@@ -184,8 +201,7 @@ public class BarDataset extends DoubleDataset<BarDataset> {
         this.stack = stack;
         return this;
     }
-
-
+    
     @Override
     public JsonObject buildJson() {
         JsonObject map = Json.createObject();
@@ -194,8 +210,10 @@ public class BarDataset extends DoubleDataset<BarDataset> {
         JUtils.putNotNull(map, "maxBarThickness", maxBarThickness);
         JUtils.putNotNull(map, "categoryPercentage", categoryPercentage);
         JUtils.putNotNull(map, "barPercentage", barPercentage);
-        List<Double> data = getData();
-        JUtils.putNotNullNumbers(map, "data", data);
+        
+        List<ScatterData> data = getData();
+        JUtils.putNotNullYNumbers(map, "data", data);
+        
         JUtils.putNotNull(map, "label", label);
         JUtils.putNotNull(map, "xAxisID", xAxisID);
         JUtils.putNotNull(map, "yAxisID", yAxisID);
@@ -224,7 +242,6 @@ public class BarDataset extends DoubleDataset<BarDataset> {
         return map;
     }
 
-    @Override
     public BarDataset getThis() {
         return this;
     }

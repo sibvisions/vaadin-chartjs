@@ -1,10 +1,7 @@
 package com.byteowls.vaadin.chartjs.v3.config;
 
-import com.byteowls.vaadin.chartjs.v3.data.Data;
-import com.byteowls.vaadin.chartjs.v3.options.types.PieChartOptions;
 import com.byteowls.vaadin.chartjs.v3.utils.JUtils;
 
-import elemental.json.Json;
 import elemental.json.JsonObject;
 
 /**
@@ -21,37 +18,16 @@ import elemental.json.JsonObject;
  *
  * @author michael@byteowls.com
  */
-public class DonutChartConfig implements ChartConfig {
+public class DonutChartConfig extends PieChartConfig {
 
     private static final long serialVersionUID = 8942176191780485298L;
 
-    private Data<DonutChartConfig> data;
-    private PieChartOptions options;
-
-    public Data<DonutChartConfig> data() {
-        if (this.data == null) {
-            this.data = new Data<>(this);
-        }
-        return this.data;
-    }
-
-    public PieChartOptions options() {
-        if (options == null) {
-            options = new PieChartOptions(this);
-        }
-        return options;
-    }
-
     @Override
     public JsonObject buildJson() {
-        JsonObject map = Json.createObject();
+        JsonObject map = super.buildJson();
+        
         JUtils.putNotNull(map, "type", "doughnut");
-        if (data != null) {
-            JUtils.putNotNull(map, "data", data.buildJson());
-        }
-        if (options != null) {
-            JUtils.putNotNull(map, "options", options.buildJson());
-        }
+        
         return map;
     }
 }

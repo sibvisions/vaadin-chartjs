@@ -25,8 +25,8 @@ public class PieChartConfig implements ChartConfig {
 
     private static final long serialVersionUID = -4278631550167229076L;
 
-    private Data<PieChartConfig> data;
-    private PieChartOptions options;
+    protected Data<PieChartConfig> data;
+    protected PieChartOptions options;
 
     public Data<PieChartConfig> data() {
         if (this.data == null) {

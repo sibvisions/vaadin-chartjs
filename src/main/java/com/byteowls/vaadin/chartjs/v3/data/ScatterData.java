@@ -36,7 +36,14 @@ public class ScatterData implements JsonBuilder, Serializable {
         this.y = y;
         return this;
     }
+    
+    public Double getX() {
+        return x;
+    }
 
+    public Double getY() {
+        return y;
+    }
 
     @Override
     public JsonObject buildJson() {
