@@ -32,18 +32,26 @@ window.com_byteowls_vaadin_chartjs_Gauge = function() {
                 console.log("gauge: create gauge div");
             }
             gaugeDiv = document.createElement('div');
+            
+            var sizeStyle = '';
+            
             if (state.width && state.width.length > 0) {
-                if (loggingEnabled) {
-                    console.log("gauge: gauge width " + state.width);
-                }
-                gaugeDiv.setAttribute('width', state.width);
+               sizeStyle += 'width: ' + state.width + ';';
             }
+            
             if (state.height && state.height.length > 0) {
-                if (loggingEnabled) {
-                    console.log("chartjs: canvas height " + state.height);
-                }
-                gaugeDiv.setAttribute('height', state.height);
+            	sizeStyle += 'height: ' + state.height + ';';
             }
+            
+            if (sizeStyle.length > 0) {
+            	
+            	if (loggingEnabled) {
+                    console.log("chartjs: gauge size " + sizeStyle);
+                }
+            	
+            	gaugeDiv.setAttribute('style', sizeStyle);
+            }	
+            
             e.appendChild(gaugeDiv)
         } else {
             if (loggingEnabled) {

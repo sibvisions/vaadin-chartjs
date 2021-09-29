@@ -1,15 +1,13 @@
 package com.byteowls.vaadin.chartjs.v3.data;
 
-import elemental.json.Json;
-import elemental.json.JsonArray;
-import elemental.json.JsonObject;
-import elemental.json.impl.JreJsonNull;
-
 import java.util.Arrays;
 import java.util.List;
 
 import com.byteowls.vaadin.chartjs.v3.options.FillMode;
 import com.byteowls.vaadin.chartjs.v3.utils.JUtils;
+
+import elemental.json.Json;
+import elemental.json.JsonObject;
 
 /**
  * @author michael@byteowls.com

@@ -219,9 +219,30 @@
             var wrapper = document.createElement("div");
             wrapper.classList.add("ui-gauge");
             wrapper.classList.add("ui-gauge-ring");
+            _this.addHook(function (_a) {
+                var width = _a.width, height = _a.height;
+                wrapper.style.width = width ? width + "px" : null;
+                wrapper.style.height = height ? height + "px" : null;
+            }, ["width", "height"]);
+            var canvas = document.createElement("div");
+            canvas.classList.add("ui-gauge__canvas");
+            wrapper.appendChild(canvas);
+            //setup title
+            var title = document.createElement("div");
+            title.classList.add("ui-gauge__title");
+            _this.addHook(function (_a) {
+                var t = _a.title;
+                title.innerHTML = t;
+                if (t) {
+                    wrapper.prepend(title);
+                }
+                else {
+                    title.remove();
+                }
+            }, ["title"]);
             //setup svg element
             var svg = makeSVGElement("svg");
-            wrapper.appendChild(svg);
+            canvas.appendChild(svg);
             _this.addHook(function (_a) {
                 var size = _a.size;
                 svg.setAttribute("viewBox", "0 0 " + size + " " + size);
@@ -318,7 +339,7 @@
             //setup gauge label
             var label = document.createElement("div");
             label.classList.add("ui-gauge-ring__label");
-            wrapper.appendChild(label);
+            canvas.appendChild(label);
             _this.addHook(function (_a) {
                 var value = _a.value, lbl = _a.label;
                 label.innerHTML = value + " " + lbl;
@@ -353,9 +374,30 @@
             var wrapper = document.createElement("div");
             wrapper.classList.add("ui-gauge");
             wrapper.classList.add("ui-gauge-arc");
+            _this.addHook(function (_a) {
+                var width = _a.width, height = _a.height;
+                wrapper.style.width = width ? width + "px" : null;
+                wrapper.style.height = height ? height + "px" : null;
+            }, ["width", "height"]);
+            var canvas = document.createElement("div");
+            canvas.classList.add("ui-gauge__canvas");
+            wrapper.appendChild(canvas);
+            //setup title
+            var title = document.createElement("div");
+            title.classList.add("ui-gauge__title");
+            _this.addHook(function (_a) {
+                var t = _a.title;
+                title.innerHTML = t;
+                if (t) {
+                    wrapper.prepend(title);
+                }
+                else {
+                    title.remove();
+                }
+            }, ["title"]);
             //setup svg element
             var svg = makeSVGElement("svg");
-            wrapper.appendChild(svg);
+            canvas.appendChild(svg);
             _this.addHook(function (_a) {
                 var size = _a.size;
                 svg.setAttribute("viewBox", "0 0 " + size + " " + size);
@@ -490,7 +532,7 @@
             //setup gauge label
             var label = document.createElement("div");
             label.classList.add("ui-gauge-arc__label");
-            wrapper.appendChild(label);
+            canvas.appendChild(label);
             _this.addHook(function (_a) {
                 var value = _a.value, lbl = _a.label;
                 label.innerHTML = value + " " + lbl;
@@ -531,9 +573,30 @@
             _this.wrapper = wrapper;
             wrapper.classList.add("ui-gauge");
             wrapper.classList.add("ui-gauge-meter");
+            _this.addHook(function (_a) {
+                var width = _a.width, height = _a.height;
+                wrapper.style.width = width ? width + "px" : null;
+                wrapper.style.height = height ? height + "px" : null;
+            }, ["width", "height"]);
+            var canvas = document.createElement("div");
+            canvas.classList.add("ui-gauge__canvas");
+            wrapper.appendChild(canvas);
+            //setup title
+            var title = document.createElement("div");
+            title.classList.add("ui-gauge__title");
+            _this.addHook(function (_a) {
+                var t = _a.title;
+                title.innerHTML = t;
+                if (t) {
+                    wrapper.prepend(title);
+                }
+                else {
+                    title.remove();
+                }
+            }, ["title"]);
             //setup svg element
             var svg = makeSVGElement("svg");
-            wrapper.appendChild(svg);
+            canvas.appendChild(svg);
             _this.addHook(function (_a) {
                 var size = _a.size, circle = _a.circle, tickLabelsInside = _a.tickLabelsInside, tickLabelOffset = _a.tickLabelOffset, sizeScale = _a.sizeScale;
                 //XXX: the 1.2 factor is a magic number
@@ -756,7 +819,7 @@
             //setup gauge value
             var value = document.createElement("div");
             value.classList.add("ui-gauge-meter__value");
-            wrapper.appendChild(value);
+            canvas.appendChild(value);
             _this.addHook(function (_a) {
                 var v = _a.value;
                 value.innerHTML = "" + v;
@@ -807,7 +870,7 @@
             var ticksHeight = Math.sqrt(tr * tr - Math.pow(tr - tinset, 2));
             var bottomTicks = (circle >= .5 ? tr + ticksHeight : tr - ticksHeight) + thickness * .25;
             var arcFlag = circle >= .5 ? 1 : 0;
-            return __assign(__assign({}, combinedOptions), { r: r, tr: tr, ir: ir, tlr: tlr, circumference: circumference, tickCircumference: tickCircumference, innerCircumference: innerCircumference, hs: hs, ht: ht, inset: inset, iinset: iinset, tinset: tinset, tickSize: tickSize, subTickSize: subTickSize, needleLength: needleLength, needleRotation: needleRotation, dasharray: dasharray, subDasharray: subDasharray, height: height, bottom: bottom, leftScale: leftScale, rightScale: rightScale, bottomScale: bottomScale, ticksHeight: ticksHeight, bottomTicks: bottomTicks, arcFlag: arcFlag, maskID: maskID, markerID: markerID, gradientID: gradientID, sizeScale: sizeScale, color: color || getColor(value, steps) });
+            return __assign(__assign({}, combinedOptions), { r: r, tr: tr, ir: ir, tlr: tlr, circumference: circumference, tickCircumference: tickCircumference, innerCircumference: innerCircumference, hs: hs, ht: ht, inset: inset, iinset: iinset, tinset: tinset, tickSize: tickSize, subTickSize: subTickSize, needleLength: needleLength, needleRotation: needleRotation, dasharray: dasharray, subDasharray: subDasharray, bottom: bottom, leftScale: leftScale, rightScale: rightScale, bottomScale: bottomScale, ticksHeight: ticksHeight, bottomTicks: bottomTicks, arcFlag: arcFlag, maskID: maskID, markerID: markerID, gradientID: gradientID, sizeScale: sizeScale, color: color || getColor(value, steps) });
         };
         return MeterGauge;
     }(AbstractGauge));

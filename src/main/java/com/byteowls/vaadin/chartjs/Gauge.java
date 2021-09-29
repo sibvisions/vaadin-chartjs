@@ -11,7 +11,7 @@ import elemental.json.JsonObject;
  * 
  * @author Jozef Dorko
  */
-@JavaScript({"vaadin://chartjs/bundle.js", "vaadin://chartjs/gauge-connector.js"})
+@JavaScript({"vaadin://chartjs/bundle.min.js", "vaadin://chartjs/gauge-connector.js"})
 @StyleSheet("vaadin://chartjs/bundle.min.css")
 public class Gauge extends AbstractJavaScriptComponent
 {
