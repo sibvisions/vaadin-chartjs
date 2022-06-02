@@ -86,9 +86,9 @@ window.com_byteowls_vaadin_chartjs_v3_ChartJs = function() {
 
             chartjs = new Chart(canvas, state.configurationJson);
             // #69 the zoom/plugin captures the wheel event so no vertical scrolling is enabled if mouse is on
-            if (state.configurationJson && !state.configurationJson.options.zoom) {
+            /*if (state.configurationJson && !state.configurationJson.options.zoom) {
                 chartjs.ctx.canvas.removeEventListener('wheel', chartjs.zoom._wheelHandler );
-            }
+            }*/
 
             // only enable if there is a listener
             if (state.dataPointClickListenerFound) {
@@ -96,7 +96,7 @@ window.com_byteowls_vaadin_chartjs_v3_ChartJs = function() {
                     console.log("chartjs: add data point click callback");
                 }
                 canvas.onclick = function(e) {
-                    var elementArr = chartjs.getElementAtEvent(e);
+                    var elementArr = chartjs.getElementsAtEventForMode(e, 'nearest', { intersect: true }, false);
                     if (elementArr && elementArr.length > 0) {
                         if (loggingEnabled) {
                             console.log("chartjs: onclick elements at:");
