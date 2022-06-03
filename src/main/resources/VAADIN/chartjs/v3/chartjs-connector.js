@@ -103,7 +103,7 @@ window.com_byteowls_vaadin_chartjs_v3_ChartJs = function() {
                             console.log(elementArr[0]);
                         }
                         // call on function registered by server side component
-                        self.onDataPointClick(elementArr[0]._datasetIndex, elementArr[0]._index);
+                        self.onDataPointClick(elementArr[0].datasetIndex, elementArr[0].index);
                     }
                 };
             }
