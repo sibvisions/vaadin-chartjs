@@ -67,6 +67,7 @@ window.com_byteowls_vaadin_chartjs_v3_ChartJs = function() {
             // parse callback functions
             this.parseCallbacks(state.configurationJson);
 
+            Chart.register(ChartDataLabels);
             /*Chart.plugins.register({
                 beforeDraw: function(chartInstance) {
                     if (loggingEnabled) {

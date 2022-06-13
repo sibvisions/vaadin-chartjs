@@ -32,6 +32,7 @@ public abstract class AbstractOptions<T> implements JsonBuilder, Serializable {
     private Element<T> elements;
     private Pan<T> pan;
     private Zoom<T> zoom;
+    private DataLabels<T> dataLabels;
 
     public AbstractOptions(ChartConfig chartConfig) {
         this.chartConfig = chartConfig;
@@ -166,7 +167,18 @@ public abstract class AbstractOptions<T> implements JsonBuilder, Serializable {
         }
         return zoom;
     }
-
+    
+    /**
+     * Step into the data labels configuration. 
+     */
+    public DataLabels<T> dataLabels() {
+        if (dataLabels == null)
+        {
+            dataLabels = new DataLabels<>(getThis());
+        }
+        return dataLabels;
+    }
+    
     public abstract T getThis();
 
     @Override
@@ -178,6 +190,7 @@ public abstract class AbstractOptions<T> implements JsonBuilder, Serializable {
         JUtils.putNotNull(plugins, "title", title);
         JUtils.putNotNull(plugins, "legend", legend);
         JUtils.putNotNull(plugins, "tooltip", tooltips);
+        JUtils.putNotNull(plugins, "datalabels", dataLabels);
         
         JUtils.putNotNull(map, "plugins", plugins);
         
