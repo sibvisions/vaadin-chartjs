@@ -33,6 +33,7 @@ public abstract class AbstractOptions<T> implements JsonBuilder, Serializable {
     private Pan<T> pan;
     private Zoom<T> zoom;
     private DataLabels<T> dataLabels;
+    private DoughnutPlugin<T> doughnutPlugin;
 
     public AbstractOptions(ChartConfig chartConfig) {
         this.chartConfig = chartConfig;
@@ -179,6 +180,17 @@ public abstract class AbstractOptions<T> implements JsonBuilder, Serializable {
         return dataLabels;
     }
     
+    /**
+     * Step into the doughnut plugin configuration. 
+     */
+    public DoughnutPlugin<T> doughnutPlugin() {
+        if (doughnutPlugin == null)
+        {
+            doughnutPlugin = new DoughnutPlugin<>(getThis());
+        }
+        return doughnutPlugin;
+    }
+    
     public abstract T getThis();
 
     @Override
@@ -191,6 +203,7 @@ public abstract class AbstractOptions<T> implements JsonBuilder, Serializable {
         JUtils.putNotNull(plugins, "legend", legend);
         JUtils.putNotNull(plugins, "tooltip", tooltips);
         JUtils.putNotNull(plugins, "datalabels", dataLabels);
+        JUtils.putNotNull(plugins, "doughnutlabel", doughnutPlugin);
         
         JUtils.putNotNull(map, "plugins", plugins);
         

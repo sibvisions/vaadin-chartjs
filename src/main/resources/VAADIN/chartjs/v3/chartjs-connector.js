@@ -68,6 +68,7 @@ window.com_byteowls_vaadin_chartjs_v3_ChartJs = function() {
             this.parseCallbacks(state.configurationJson);
 
             Chart.register(ChartDataLabels);
+            Chart.register(DoughnutLabel);
             /*Chart.plugins.register({
                 beforeDraw: function(chartInstance) {
                     if (loggingEnabled) {
