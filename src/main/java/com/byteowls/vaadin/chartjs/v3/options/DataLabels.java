@@ -14,6 +14,7 @@ public class DataLabels<T> extends And<T> implements JsonBuilder
     private Boolean display;
     private String align;
     private String backgroundColor;
+    private String foregroundColor;
     private String borderRadius;
     private String formatter;
     
@@ -35,6 +36,14 @@ public class DataLabels<T> extends And<T> implements JsonBuilder
      */
     public DataLabels<T> align(String align) {
         this.align = align;
+        return this;
+    }
+    
+    /**
+     * Foreground color of data labels
+     */
+    public DataLabels<T> foregroundColor(String foregroundColor) {
+        this.foregroundColor = foregroundColor;
         return this;
     }
     
@@ -68,6 +77,7 @@ public class DataLabels<T> extends And<T> implements JsonBuilder
         JsonObject obj = Json.createObject();
         JUtils.putNotNull(obj, "display", display);
         JUtils.putNotNull(obj, "align", align);
+        JUtils.putNotNull(obj, "color", foregroundColor);
         JUtils.putNotNull(obj, "backgroundColor", backgroundColor);
         JUtils.putNotNull(obj, "borderRadius", borderRadius);
         JUtils.putNotNullCallback(obj, "formatter", formatter, "value");
