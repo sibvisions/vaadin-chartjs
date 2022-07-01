@@ -14,16 +14,14 @@ public class LegendLabel<T> extends And<Legend<T>> implements JsonBuilder, Seria
     private static final long serialVersionUID = -7792493411933479339L;
 
     private Integer boxWidth;
-    private Integer fontSize;
-    private String fontStyle;
     private String fontColor;
-    private String fontFamily;
+    private Font font;
     private Integer padding;
     // TODO callback generateLabels
     private Boolean usePointStyle;
 
     /**
-     * Width of coloured box. Default: 40
+     * Width of coloured box. Defaults: 40
      */
     public LegendLabel<T> boxWidth(int boxWidth) {
         this.boxWidth = boxWidth;
@@ -31,37 +29,23 @@ public class LegendLabel<T> extends And<Legend<T>> implements JsonBuilder, Seria
     }
 
     /**
-     * Font size. Default: 12
-     */
-    public LegendLabel<T> fontSize(int fontSize) {
-        this.fontSize = fontSize;
-        return this;
-    }
-
-    /**
-     * Font style. Default: normal
-     */
-    public LegendLabel<T> fontStyle(String fontStyle) {
-        this.fontStyle = fontStyle;
-        return this;
-    }
-
-    /**
-     * Font color. Default: #666
+     *  Font color.
      */
     public LegendLabel<T> fontColor(String fontColor) {
         this.fontColor = fontColor;
         return this;
     }
-
+    
     /**
-     * Font family. Default: 'Helvetica Neue', 'Helvetica', 'Arial', sans-serif
+     * Font of legend label
      */
-    public LegendLabel<T> fontFamily(String fontFamily) {
-        this.fontFamily = fontFamily;
-        return this;
+    public Font font() {
+        if (font == null)
+        {
+            font = new Font();
+        }
+        return font;
     }
-
 
     /**
      * Padding between rows of colored boxes. Default: 10
@@ -80,10 +64,8 @@ public class LegendLabel<T> extends And<Legend<T>> implements JsonBuilder, Seria
     public JsonObject buildJson() {
         JsonObject map = Json.createObject();
         JUtils.putNotNull(map, "boxWidth", boxWidth);
-        JUtils.putNotNull(map, "fontSize", fontSize);
-        JUtils.putNotNull(map, "fontStyle", fontStyle);
-        JUtils.putNotNull(map, "fontColor", fontColor);
-        JUtils.putNotNull(map, "fontFamily", fontFamily);
+        JUtils.putNotNull(map, "color", fontColor);
+        JUtils.putNotNull(map, "font", font);
         JUtils.putNotNull(map, "padding", padding);
         JUtils.putNotNull(map, "usePointStyle", usePointStyle);
         return map;

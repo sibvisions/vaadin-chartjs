@@ -14,10 +14,7 @@ public class DoughnutLabel implements JsonBuilder, Serializable
     
     private String text;
     private String color;
-    private int fontSize;
-    private String fontFamily;
-    private String fontStyle;
-    private String fontWeight;
+    private Font font;
     
     /**
      * Text of inner label
@@ -36,37 +33,16 @@ public class DoughnutLabel implements JsonBuilder, Serializable
     }
     
     /**
-     * Font size of inner label
+     * Font of inner label
      */
-    public DoughnutLabel fontSize(int fontSize) {
-        this.fontSize = fontSize;
-        return this;
+    public Font font() {
+        if (font == null)
+        {
+            font = new Font();
+        }
+        return font;
     }
     
-    /**
-     * Font family of inner label
-     */
-    public DoughnutLabel fontFamily(String fontFamily) {
-        this.fontFamily = fontFamily;
-        return this;
-    }
-    
-    /**
-     * Font style of inner label
-     */
-    public DoughnutLabel fontStyle(String fontStyle) {
-        this.fontStyle = fontStyle;
-        return this;
-    }
-    
-    /**
-     * Font weight of inner label
-     */
-    public DoughnutLabel fontWeight(String fontWeight) {
-        this.fontWeight = fontWeight;
-        return this;
-    }
-
     @Override
     public JsonObject buildJson()
     {
@@ -74,15 +50,7 @@ public class DoughnutLabel implements JsonBuilder, Serializable
         
         JUtils.putNotNull(label, "text", text);
         JUtils.putNotNull(label, "color", color);
-        
-        JsonObject font = Json.createObject();
-        
-        JUtils.putNotNull(font, "size", fontSize);
-        JUtils.putNotNull(font, "family", fontFamily);
-        JUtils.putNotNull(font, "style", fontStyle);
-        JUtils.putNotNull(font, "weight", fontWeight);
-        
-        label.put("font", font);
+        JUtils.putNotNull(label, "font", font);
         
         return label;
     }

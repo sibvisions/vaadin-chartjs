@@ -29,21 +29,15 @@ public class Tooltips<T> extends And<T> implements JsonBuilder {
     private Boolean intersect;
     private PositionMode position;
     private String backgroundColor;
-    private String titleFontFamily;
-    private Integer titleFontSize;
-    private String titleFontStyle;
-    private String titleFontColor;
+    private Font titleFont;
+    private String titleColor;
     private Integer titleSpacing;
     private Integer titleMarginBottom;
-    private String bodyFontFamily;
-    private Integer bodyFontSize;
-    private String bodyFontStyle;
-    private String bodyFontColor;
+    private Font bodyFont;
+    private String bodyColor;
     private Integer bodySpacing;
-    private String footerFontFamily;
-    private Integer footerFontSize;
-    private String footerFontStyle;
-    private String footerFontColor;
+    private Font footerFont;
+    private String footerColor;
     private Integer footerSpacing;
     private Integer footerMarginTop;
     private Integer xPadding;
@@ -110,41 +104,28 @@ public class Tooltips<T> extends And<T> implements JsonBuilder {
         this.backgroundColor = backgroundColor;
         return this;
     }
-
+    
     /**
-     * Font family for tooltip title inherited from global font family.
+     * Font for tooltip title
      */
-    public Tooltips<T> titleFontFamily(String titleFontFamily) {
-        this.titleFontFamily = titleFontFamily;
-        return this;
-    }
-
-    /**
-     * Font size for tooltip title inherited from global font size. Default: 12
-     */
-    public Tooltips<T> titleFontSize(int titleFontSize) {
-        this.titleFontSize = titleFontSize;
-        return this;
-    }
-
-    /**
-     * Default: bold
-     */
-    public Tooltips<T> titleFontStyle(String titleFontStyle) {
-        this.titleFontStyle = titleFontStyle;
-        return this;
+    public Font titleFont() {
+        if (titleFont == null)
+        {
+            titleFont = new Font();
+        }
+        return titleFont;
     }
 
     /**
      * Font color for tooltip title. Default: #fff
      */
-    public Tooltips<T> titleFontColor(String titleFontColor) {
-        this.titleFontColor = titleFontColor;
+    public Tooltips<T> titleColor(String titleColor) {
+        this.titleColor = titleColor;
         return this;
     }
 
     /**
-     * Spacing to add to top and bottom of each title line. Default: 2
+     * Spacing to add to top and bottom of each title line. Defaults: 2
      */
     public Tooltips<T> titleSpacing(int titleSpacing) {
         this.titleSpacing = titleSpacing;
@@ -160,34 +141,21 @@ public class Tooltips<T> extends And<T> implements JsonBuilder {
     }
 
     /**
-     * Font family for tooltip items inherited from global font family
+     * Font for tooltip items.
      */
-    public Tooltips<T> bodyFontFamily(String bodyFontFamily) {
-        this.bodyFontFamily = bodyFontFamily;
-        return this;
-    }
-
-    /**
-     * Font size for tooltip items inherited from global font size. Default: 12
-     */
-    public Tooltips<T> bodyFontSize(int bodyFontSize) {
-        this.bodyFontSize = bodyFontSize;
-        return this;
-    }
-
-    /**
-     * Default: normal
-     */
-    public Tooltips<T> bodyFontStyle(String bodyFontStyle) {
-        this.bodyFontStyle = bodyFontStyle;
-        return this;
+    public Font bodyFont() {
+        if (bodyFont == null)
+        {
+            bodyFont = new Font();
+        }
+        return bodyFont;
     }
 
     /**
      * Font color for tooltip items. Default: #fff
      */
-    public Tooltips<T> bodyFontColor(String bodyFontColor) {
-        this.bodyFontColor = bodyFontColor;
+    public Tooltips<T> bodyColor(String bodyColor) {
+        this.bodyColor = bodyColor;
         return this;
     }
 
@@ -200,34 +168,21 @@ public class Tooltips<T> extends And<T> implements JsonBuilder {
     }
 
     /**
-     * Font family for tooltip footer inherited from global font family.
+     * Font for tooltip footer.
      */
-    public Tooltips<T> footerFontFamily(String footerFontFamily) {
-        this.footerFontFamily = footerFontFamily;
-        return this;
-    }
-
-    /**
-     * Font size for tooltip footer inherited from global font size.
-     */
-    public Tooltips<T> footerFontSize(int footerFontSize) {
-        this.footerFontSize = footerFontSize;
-        return this;
-    }
-
-    /**
-     * Font style for tooltip footer. Default: bold
-     */
-    public Tooltips<T> footerFontStyle(String footerFontStyle) {
-        this.footerFontStyle = footerFontStyle;
-        return this;
+    public Font footerFont() {
+        if (footerFont == null)
+        {
+            footerFont = new Font();
+        }
+        return footerFont;
     }
 
     /**
      * Font color for tooltip footer. Default: #fff
      */
-    public Tooltips<T> footerFontColor(String footerFontColor) {
-        this.footerFontColor = footerFontColor;
+    public Tooltips<T> footerColor(String footerColor) {
+        this.footerColor = footerColor;
         return this;
     }
 
@@ -344,21 +299,15 @@ public class Tooltips<T> extends And<T> implements JsonBuilder {
             JUtils.putNotNull(map, "position", position.name().toLowerCase());
         }
         JUtils.putNotNull(map, "backgroundColor", backgroundColor);
-        JUtils.putNotNull(map, "titleFontFamily", titleFontFamily);
-        JUtils.putNotNull(map, "titleFontSize", titleFontSize);
-        JUtils.putNotNull(map, "titleFontStyle", titleFontStyle);
-        JUtils.putNotNull(map, "titleFontColor", titleFontColor);
+        JUtils.putNotNull(map, "titleFont", titleFont);
+        JUtils.putNotNull(map, "titleColor", titleColor);
         JUtils.putNotNull(map, "titleSpacing", titleSpacing);
         JUtils.putNotNull(map, "titleMarginBottom", titleMarginBottom);
-        JUtils.putNotNull(map, "bodyFontFamily", bodyFontFamily);
-        JUtils.putNotNull(map, "bodyFontSize", bodyFontSize);
-        JUtils.putNotNull(map, "bodyFontStyle", bodyFontStyle);
-        JUtils.putNotNull(map, "bodyFontColor", bodyFontColor);
+        JUtils.putNotNull(map, "bodyFont", bodyFont);
+        JUtils.putNotNull(map, "bodyColor", bodyColor);
         JUtils.putNotNull(map, "bodySpacing", bodySpacing);
-        JUtils.putNotNull(map, "footerFontFamily", footerFontFamily);
-        JUtils.putNotNull(map, "footerFontSize", footerFontSize);
-        JUtils.putNotNull(map, "footerFontStyle", footerFontStyle);
-        JUtils.putNotNull(map, "footerFontColor", footerFontColor);
+        JUtils.putNotNull(map, "footerFont", footerFont);
+        JUtils.putNotNull(map, "footerColor", footerColor);
         JUtils.putNotNull(map, "footerSpacing", footerSpacing);
         JUtils.putNotNull(map, "footerMarginTop", footerMarginTop);
         JUtils.putNotNull(map, "xPadding", xPadding);

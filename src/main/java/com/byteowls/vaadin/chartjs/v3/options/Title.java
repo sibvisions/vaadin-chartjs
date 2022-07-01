@@ -16,11 +16,9 @@ public class Title<T> extends And<T> implements JsonBuilder, Serializable {
     private Boolean display;
     private Position position;
     private String text;
-    private Boolean fullWidth;
-    private Integer fontSize;
-    private String fontFamily;
-    private String fontColor; //
-    private String fontStyle;
+    private Boolean fullSize;
+    private Font font;
+    private String color; //
     private Integer padding;
 
     public Title(T parent) {
@@ -52,42 +50,29 @@ public class Title<T> extends And<T> implements JsonBuilder, Serializable {
     }
 
     /**
-     * Marks that this box should take the full width of the canvas (pushing down other boxes)
+     * Marks that this box should take the full width/height of the canvas.
      */
-    public Title<T> fullWidth(boolean fullWidth) {
-        this.fullWidth = fullWidth;
+    public Title<T> fullSize(boolean fullSize) {
+        this.fullSize = fullSize;
         return this;
     }
 
     /**
-     * Font size inherited from global configuration
+     * Title font
      */
-    public Title<T> fontSize(int fontSize) {
-        this.fontSize = fontSize;
-        return this;
+    public Font font() {
+        if (font == null)
+        {
+            font = new Font();
+        }
+        return font;
     }
 
     /**
-     * Font family inherited from global configuration
+     * Color of title text
      */
-    public Title<T> fontFamily(String fontFamily) {
-        this.fontFamily = fontFamily;
-        return this;
-    }
-
-    /**
-     * Font color inherited from global configuration
-     */
-    public Title<T> fontColor(String fontColor) {
-        this.fontColor = fontColor;
-        return this;
-    }
-
-    /**
-     * Font styling of the title.
-     */
-    public Title<T> fontStyle(String fontStyle) {
-        this.fontStyle = fontStyle;
+    public Title<T> color(String fontColor) {
+        this.color = fontColor;
         return this;
     }
 
@@ -107,12 +92,11 @@ public class Title<T> extends And<T> implements JsonBuilder, Serializable {
             JUtils.putNotNull(map, "position", position.name().toLowerCase());
         }
         JUtils.putNotNull(map, "text", text);
-        JUtils.putNotNull(map, "fullWidth", fullWidth);
-        JUtils.putNotNull(map, "fontSize", fontSize);
-        JUtils.putNotNull(map, "fontFamily", fontFamily);
-        JUtils.putNotNull(map, "fontColor", fontColor);
-        JUtils.putNotNull(map, "fontStyle", fontStyle);
+        JUtils.putNotNull(map, "fullSize", fullSize);
+        JUtils.putNotNull(map, "color", color);
         JUtils.putNotNull(map, "padding", padding);
+        JUtils.putNotNull(map, "font", font);
+        
         return map;
     }
 }

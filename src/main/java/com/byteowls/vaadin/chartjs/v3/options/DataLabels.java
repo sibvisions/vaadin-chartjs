@@ -17,6 +17,7 @@ public class DataLabels<T> extends And<T> implements JsonBuilder
     private String foregroundColor;
     private String borderRadius;
     private String formatter;
+    private Font font;
     
     public DataLabels(T parent)
     {
@@ -56,6 +57,17 @@ public class DataLabels<T> extends And<T> implements JsonBuilder
     }
     
     /**
+     * Font of data labels
+     */
+    public Font font() {
+        if (font == null)
+        {
+            font = new Font();
+        }
+        return font;
+    }
+    
+    /**
      * Border radius of background rectangle
      */
     public DataLabels<T> borderRadius(String borderRadius) {
@@ -75,11 +87,14 @@ public class DataLabels<T> extends And<T> implements JsonBuilder
     public JsonObject buildJson()
     {
         JsonObject obj = Json.createObject();
+        
         JUtils.putNotNull(obj, "display", display);
         JUtils.putNotNull(obj, "align", align);
         JUtils.putNotNull(obj, "color", foregroundColor);
         JUtils.putNotNull(obj, "backgroundColor", backgroundColor);
         JUtils.putNotNull(obj, "borderRadius", borderRadius);
+        JUtils.putNotNull(obj, "font", font);
+        
         JUtils.putNotNullCallback(obj, "formatter", formatter, "value");
         
         return obj;
