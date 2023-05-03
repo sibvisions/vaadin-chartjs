@@ -1,34 +1,33 @@
 <project name="Charts and Gauges" default="start.complete">
 
 	<!--
-		*****************************************************************
-		* information
-		*****************************************************************
-		-->
+	  *****************************************************************
+	  * information
+	  *****************************************************************
+	  -->
 
-	<description>
-		Chart and gauge js implementation wrapper.
-	</description>
+	<description>Chart and gauge js implementation wrapper.</description>
 
 	<!--
-		*****************************************************************
-		* global properties
-		*****************************************************************
-		-->
+	  *****************************************************************
+	  * global properties
+	  *****************************************************************
+	  -->
 
 	<property name="jar.name" value="chart_js_wrapper.jar" />
+	
+	<property name="lib.version" value="1.1"/>
+	<property name="lib.title" value="ChartJS Vaadin Wrapper"/>
 
 	<!--
-		*****************************************************************
-		* general properties
-		*****************************************************************
-		-->
+	  *****************************************************************
+	  * general properties
+	  *****************************************************************
+	  -->
 
 	<property name="ant" location="${basedir}/ant"/>
 	<property name="build" location="${basedir}/build"/>
 	<property name="buildnumber" location="${ant}/buildnumber"/>
-	<property name="lib.version" value="1.0"/>
-	<property name="lib.title" value="core"/>
 	<property name="build" value="${basedir}/build" />
 	<property name="temp" location="${build}/temp" />
 	<property name="release" location="${build}/release" />
@@ -36,74 +35,91 @@
 	<property name="resources" value="${basedir}/src/main/resources" />
 	<property name="classes" value="${temp}/classes" />
 	
+	<!-- Compile properties -->
+	<property name="target.source"  value="1.8" />
+	<property name="target.version" value="1.8" />
+
+	<property name="debug"      value="on"/>
+	<property name="debuglevel" value="lines,vars,source"/>
+	
 	<!--
 	  *****************************************************************
 	  * external taskdefinitions
 	  *****************************************************************
 	  -->
 	  
-	  <!-- build number support -->
+	<!-- build number support -->
 	  
-	  <taskdef name="buildnr" classname="com.sibvisions.addons.ant.AntBuildNumber" classpath="${buildnumber}/addons.jar"/>
+	<taskdef name="buildnr" classname="com.sibvisions.addons.ant.AntBuildNumber" classpath="${buildnumber}/addons.jar" />
 
 	<!--
-		*****************************************************************
-		* INTERNAL TASKS
-		*****************************************************************
-		-->
+	  *****************************************************************
+	  * INTERNAL TASKS
+	  *****************************************************************
+	  -->
 
 	<target name="clean.start">
-		<delete dir="${temp}" />
-		<delete dir="${release}" />
+	  <delete dir="${temp}" />
+	  <delete dir="${release}" />
 	</target>
 
 	<target name="clean.stop">
-		<delete dir="${temp}" />
+	  <delete dir="${temp}" />
 	</target>
 
 	<target name="compile">
-		<mkdir dir="${build}" />
-		<mkdir dir="${classes}" />
-		<buildnr buildfile="${buildnumber}/buildnr.properties" version="${lib.version}" name="${lib.title}"/>
-		<javac srcdir="${src}" destdir="${classes}" includeantruntime="false" source="1.8" target="1.8" debug="off" debuglevel="source,lines">
-			<classpath>
-				<fileset dir="lib">
-					<include name="**/*.jar" />
-				</fileset>
-			</classpath>
-		</javac>
-
-		<copy todir="${classes}">
-			<fileset dir="${src}">
-				<include name="**/**" />
-
-				<exclude name="**/*.java" />
-				<exclude name="**/package.html" />
-				<exclude name="META-INF/**" />
-			</fileset>
-		</copy>
 		
-		<copy todir="${classes}">
-			<fileset dir="${resources}"/>
-		</copy>
+	  <mkdir dir="${build}" />
+	  <mkdir dir="${classes}" />
+		
+	  <buildnr buildfile="${buildnumber}/buildnr.properties" version="${lib.version}" name="${lib.title}"/>
+		
+	  <javac srcdir="${src}" destdir="${classes}" includeantruntime="false" debug="${debug}" debuglevel="${debuglevel}" deprecation="on" source="${target.source}" target="${target.version}" encoding="ISO-8859-1">
+	    <classpath>
+		  <fileset dir="lib">
+		    <include name="**/*.jar" />
+		  </fileset>
+		</classpath>
+	  </javac>
+
+	  <copy todir="${classes}">
+	    <fileset dir="${src}">
+		  <include name="**/**" />
+
+		  <exclude name="**/*.java" />
+		  <exclude name="**/package.html" />
+		  <exclude name="META-INF/**" />
+		</fileset>
+	  </copy>
+		
+	  <copy todir="${classes}">
+		<fileset dir="${resources}"/>
+	  </copy>
+		
 	</target>
 
 	<target name="jar" depends="compile">
-		<mkdir dir="${release}" />
-		<jar jarfile="${release}/${jar.name}" basedir="${classes}">
-			<manifest>
-				<attribute name="Implementation-Title" value="Charts and Gauges JS Wrapper" />
-				<attribute name="Implementation-Vendor" value="SIB Visions GmbH" />
-				<attribute name="Implementation-Version" value="b${build.number} ${build.date}"/>
-			</manifest>
-		</jar>
+	  
+	  <mkdir dir="${release}" />
+		
+	  <jar jarfile="${release}/${jar.name}" basedir="${classes}">
+	  	
+	    <manifest>
+		  <attribute name="Implementation-Title" value="Charts and Gauges JS Wrapper" />
+		  <attribute name="Implementation-Vendor" value="SIB Visions GmbH" />
+		  <attribute name="Implementation-Version" value="b${build.number} ${build.date}"/>
+		</manifest>
+	  	
+	  </jar>
+		
 	</target>
 
 	<!--
-		*****************************************************************
-		* PUBLIC START TASKS
-		*****************************************************************
-		-->
+	  *****************************************************************
+	  * PUBLIC START TASKS
+	  *****************************************************************
+	  -->
 
-	<target name="start.complete" depends="clean.start, jar, clean.stop" description="Creates the release jar" />
+	<target name="start.complete" depends="clean.start, jar, clean.stop" description="Creates release libraries" />
+	
 </project>
