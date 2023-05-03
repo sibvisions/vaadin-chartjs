@@ -24,6 +24,7 @@ public class AnnotationOptions<T> extends And<T> implements JsonBuilder {
     private DrawTime drawTime;
     private List<String> events;
     private Integer dblClickSpeed;
+    @SuppressWarnings("rawtypes")
     private List<AbstractAnnotation> annotations;
 
     public AnnotationOptions(T parent) {

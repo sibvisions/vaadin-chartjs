@@ -3,10 +3,6 @@ package com.byteowls.vaadin.chartjs.utils;
 import org.junit.Assert;
 import org.junit.Test;
 
-import java.awt.*;
-
-import static org.junit.Assert.*;
-
 /**
  * @author michael@team-conductor.com
  */

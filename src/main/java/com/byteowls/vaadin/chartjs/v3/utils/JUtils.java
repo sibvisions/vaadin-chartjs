@@ -161,7 +161,7 @@ public abstract class JUtils {
             for (Pair<LocalDateTime,Double> n : listOfPairs) {
                 if (n != null) {
                     JsonObject map = Json.createObject();
-                    JUtils.putNotNull(map, "t",	n.getFirst());
+                    JUtils.putNotNull(map, "x",	n.getFirst());
                     JUtils.putNotNull(map, "y", n.getSecond());
                     arr.set(arr.length(), map);
                 }

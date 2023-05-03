@@ -1,17 +1,17 @@
 package com.byteowls.vaadin.chartjs;
 
-import com.byteowls.vaadin.chartjs.config.ChartConfig;
-import com.vaadin.annotations.JavaScript;
-import com.vaadin.annotations.StyleSheet;
-import com.vaadin.icons.VaadinIcons;
-import com.vaadin.ui.AbstractJavaScriptComponent;
-import com.vaadin.ui.JavaScriptFunction;
-import elemental.json.JsonArray;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
+
+import com.byteowls.vaadin.chartjs.config.ChartConfig;
+import com.vaadin.annotations.JavaScript;
+import com.vaadin.annotations.StyleSheet;
+import com.vaadin.ui.AbstractJavaScriptComponent;
+import com.vaadin.ui.JavaScriptFunction;
+
+import elemental.json.JsonArray;
 
 @JavaScript({"vaadin://chartjs/Moment.js", "vaadin://chartjs/Chart.min.js", "vaadin://chartjs/hammer.min.js", "vaadin://chartjs/chartjs-plugin-zoom.min.js",
     "vaadin://chartjs/chartjs-plugin-annotation.min.js", "vaadin://chartjs/chartjs-connector.js"})
