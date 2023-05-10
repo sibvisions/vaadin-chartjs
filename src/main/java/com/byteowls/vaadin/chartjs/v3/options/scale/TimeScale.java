@@ -2,6 +2,7 @@ package com.byteowls.vaadin.chartjs.v3.options.scale;
 
 import com.byteowls.vaadin.chartjs.v3.utils.JUtils;
 
+import elemental.json.Json;
 import elemental.json.JsonObject;
 
 /**
@@ -14,6 +15,8 @@ import elemental.json.JsonObject;
 public class TimeScale extends BaseScale<TimeScale> {
     
     private TimeScaleOptions timeOptions;
+    
+    private String locale;
 
     public TimeScale() {
         type("time");
@@ -24,6 +27,11 @@ public class TimeScale extends BaseScale<TimeScale> {
         return timeOptions;
     }
     
+    public TimeScale locale(String locale)
+    {
+        this.locale = locale;
+        return this;
+    }
 
     @Override
     public TimeScale getThis() {
@@ -34,6 +42,16 @@ public class TimeScale extends BaseScale<TimeScale> {
     public JsonObject buildJson() {
         JsonObject map = super.buildJson();
         JUtils.putNotNull(map, "time", timeOptions);
+        if (locale != null)
+        {
+            JsonObject date = Json.createObject();
+            JUtils.putNotNull(date, "locale", locale);
+            
+            JsonObject adapters = Json.createObject();
+            JUtils.putNotNull(adapters, "date", date);
+
+            JUtils.putNotNull(map, "adapters", adapters);
+        }
         return map;
     }
 }

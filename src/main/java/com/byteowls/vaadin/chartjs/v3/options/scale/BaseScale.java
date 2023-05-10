@@ -16,6 +16,16 @@ public abstract class BaseScale<B extends BaseScale<?>> implements JsonBuilder, 
 
     private static final long serialVersionUID = -2382244938070735956L;
 
+    public enum Bounds {
+        DATA,
+        TICKS
+    }
+    
+    static String boundsToString(Bounds bounds) {
+        if (bounds==null) return null;
+        return bounds.toString().toLowerCase();
+    }
+    
     private String id;
     protected String type;
     protected Boolean display;
@@ -26,6 +36,7 @@ public abstract class BaseScale<B extends BaseScale<?>> implements JsonBuilder, 
     protected Double max;
     protected Double suggestedMin;
     protected Double suggestedMax;
+    protected Bounds bounds = Bounds.TICKS; // should be default
     protected GridLines<B> gridLines;
     protected Ticks<B> ticks;
     protected ScaleLabel<B> scaleLabel;
@@ -135,6 +146,14 @@ public abstract class BaseScale<B extends BaseScale<?>> implements JsonBuilder, 
     }
 
     /**
+     * User defined bounds can be "data" or "ticks".
+     */
+    public BaseScale<B> bounds(Bounds bounds) {
+        this.bounds = bounds;
+        return this;
+    }
+    
+    /**
      * Position of the scale.
      */
     public BaseScale<B> position(Position position) {
@@ -187,6 +206,7 @@ public abstract class BaseScale<B extends BaseScale<?>> implements JsonBuilder, 
         JUtils.putNotNull(map, "max", max);
         JUtils.putNotNull(map, "suggestedMin", suggestedMin);
         JUtils.putNotNull(map, "suggestedMax", suggestedMax);
+        JUtils.putNotNull(map, "bounds", boundsToString(bounds));
         if (position != null) {
             JUtils.putNotNull(map, "position", position.name().toLowerCase());
         }

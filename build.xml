@@ -16,7 +16,7 @@
 
 	<property name="jar.name" value="chart_js_wrapper.jar" />
 	
-	<property name="lib.version" value="1.1"/>
+	<property name="lib.version" value="1.2"/>
 	<property name="lib.title" value="ChartJS Vaadin Wrapper"/>
 
 	<!--

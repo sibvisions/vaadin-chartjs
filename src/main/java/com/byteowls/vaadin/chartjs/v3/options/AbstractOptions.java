@@ -1,8 +1,5 @@
 package com.byteowls.vaadin.chartjs.v3.options;
 
-import elemental.json.Json;
-import elemental.json.JsonObject;
-
 import java.io.Serializable;
 import java.util.Arrays;
 import java.util.List;
@@ -11,6 +8,9 @@ import com.byteowls.vaadin.chartjs.v3.config.ChartConfig;
 import com.byteowls.vaadin.chartjs.v3.options.elements.Element;
 import com.byteowls.vaadin.chartjs.v3.utils.JUtils;
 import com.byteowls.vaadin.chartjs.v3.utils.JsonBuilder;
+
+import elemental.json.Json;
+import elemental.json.JsonObject;
 
 public abstract class AbstractOptions<T> implements JsonBuilder, Serializable {
 
@@ -23,6 +23,7 @@ public abstract class AbstractOptions<T> implements JsonBuilder, Serializable {
     private Boolean maintainAspectRatio;
     private Double aspectRatio;
     private Integer devicePixelRatio;
+    private String locale;
     private List<String> events;
     private Title<T> title;
     private Tooltips<T> tooltips;
@@ -77,6 +78,15 @@ public abstract class AbstractOptions<T> implements JsonBuilder, Serializable {
      */
     public T devicePixelRatio(int devicePixelRatio) {
         this.devicePixelRatio = devicePixelRatio;
+        return getThis();
+    }
+
+    /**
+     * Defines the language for number axis.
+     */
+    public T locale(String locale)
+    {
+        this.locale = locale;
         return getThis();
     }
 
@@ -212,6 +222,7 @@ public abstract class AbstractOptions<T> implements JsonBuilder, Serializable {
         JUtils.putNotNull(map, "maintainAspectRatio", maintainAspectRatio);
         JUtils.putNotNull(map, "responsiveAnimationDuration", responsiveAnimationDuration);
         JUtils.putNotNull(map, "devicePixelRatio", devicePixelRatio);
+        JUtils.putNotNull(map, "locale", locale);
         JUtils.putNotNull(map, "events", events);
         JUtils.putNotNull(map, "title", title);
         JUtils.putNotNull(map, "hover", hover);
