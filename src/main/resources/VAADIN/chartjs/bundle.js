@@ -209,6 +209,7 @@
 
     var defaultOptions$3 = {
         value: 0,
+        min: 0,
         max: 10,
         size: 100,
         thickness: 20
@@ -216,7 +217,7 @@
     var RingGauge = /** @class */ (function (_super) {
         __extends(RingGauge, _super);
         function RingGauge(element, options) {
-            var _this = _super.call(this, options, maybeScaleDefaults(defaultOptions$3, options.size)) || this;
+            var _this = _super.call(this, options, maybeScaleDefaults(defaultOptions$3, options.size, ["min", "max", "value"])) || this;
             var wrapper = document.createElement("div");
             wrapper.classList.add("ui-gauge");
             wrapper.classList.add("ui-gauge-ring");
@@ -327,7 +328,7 @@
             fg.classList.add("ui-gauge-ring__fg");
             group.appendChild(fg);
             _this.addHook(function (_a) {
-                var hs = _a.hs, r = _a.r, thickness = _a.thickness, circumference = _a.circumference, value = _a.value, max = _a.max, color = _a.color;
+                var hs = _a.hs, r = _a.r, thickness = _a.thickness, circumference = _a.circumference, value = _a.value, min = _a.min, max = _a.max, color = _a.color;
                 fg.setAttribute("cx", hs);
                 fg.setAttribute("cy", hs);
                 fg.setAttribute("r", r);
@@ -335,8 +336,8 @@
                 fg.setAttribute("stroke", color);
                 fg.setAttribute("stroke-width", (thickness + 2).toString());
                 fg.setAttribute("stroke-dasharray", circumference);
-                fg.setAttribute("stroke-dashoffset", Math.max(0, Math.min(circumference, (1 - value / max) * circumference)).toString());
-            }, ["size", "thickness", "value", "max", "color"]);
+                fg.setAttribute("stroke-dashoffset", Math.max(0, Math.min(circumference, (1 - (value - min) / (max - min)) * circumference)).toString());
+            }, ["size", "thickness", "value", "min", "max", "color"]);
             //setup gauge label
             var label = document.createElement("div");
             label.classList.add("ui-gauge-ring__label");
@@ -364,6 +365,7 @@
 
     var defaultOptions$2 = {
         value: 0,
+        min: 0,
         max: 10,
         size: 100,
         thickness: 20
@@ -371,7 +373,7 @@
     var ArcGauge = /** @class */ (function (_super) {
         __extends(ArcGauge, _super);
         function ArcGauge(element, options) {
-            var _this = _super.call(this, options, maybeScaleDefaults(defaultOptions$2, options.size)) || this;
+            var _this = _super.call(this, options, maybeScaleDefaults(defaultOptions$2, options.size, ["min", "max", "value"])) || this;
             var wrapper = document.createElement("div");
             wrapper.classList.add("ui-gauge");
             wrapper.classList.add("ui-gauge-arc");
@@ -500,23 +502,26 @@
             fg.classList.add("ui-gauge-arc__fg");
             innerGroup.appendChild(fg);
             _this.addHook(function (_a) {
-                var ht = _a.ht, hs = _a.hs, r = _a.r, size = _a.size, thickness = _a.thickness, circumference = _a.circumference, value = _a.value, max = _a.max, color = _a.color;
+                var ht = _a.ht, hs = _a.hs, r = _a.r, size = _a.size, thickness = _a.thickness, circumference = _a.circumference, value = _a.value, min = _a.min, max = _a.max, color = _a.color;
                 fg.setAttribute("d", "M " + ht + " " + hs + " A " + r + " " + r + " 0 0 1 " + (size - ht) + " " + hs);
                 fg.setAttribute("stroke", color);
                 fg.setAttribute("stroke-width", "" + (thickness + 2));
                 fg.setAttribute("stroke-dasharray", "" + circumference);
-                fg.setAttribute("stroke-dashoffset", Math.max(0, Math.min(circumference, (1 - value / max) * circumference)).toString());
-            }, ["size", "value", "max", "color"]);
+                fg.setAttribute("stroke-dashoffset", Math.max(0, Math.min(circumference, (1 - (value - min) / (max - min)) * circumference)).toString());
+            }, ["size", "value", "min", "max", "color"]);
             var minText = makeSVGElement("text");
             minText.setAttribute("text-anchor", "middle");
             minText.setAttribute("dominant-baseline", "hanging");
-            minText.innerHTML = "0";
             outerGroup.appendChild(minText);
             _this.addHook(function (_a) {
                 var hs = _a.hs, ht = _a.ht;
                 minText.setAttribute("x", ht);
                 minText.setAttribute("y", "" + (hs + 4));
             }, ["size"]);
+            _this.addHook(function (_a) {
+                var min = _a.min;
+                minText.innerHTML = min.toString();
+            }, ["min"]);
             var maxText = makeSVGElement("text");
             maxText.setAttribute("text-anchor", "middle");
             maxText.setAttribute("dominant-baseline", "hanging");
@@ -558,6 +563,7 @@
 
     var defaultOptions$1 = {
         value: 0,
+        min: 0,
         max: 10,
         size: 100,
         thickness: 4,
@@ -569,7 +575,7 @@
     var MeterGauge = /** @class */ (function (_super) {
         __extends(MeterGauge, _super);
         function MeterGauge(element, options) {
-            var _this = _super.call(this, options, maybeScaleDefaults(defaultOptions$1, options.size, ["ticks", "subTicks", "circle", "max"])) || this;
+            var _this = _super.call(this, options, maybeScaleDefaults(defaultOptions$1, options.size, ["ticks", "subTicks", "circle", "min", "max", "value"])) || this;
             var wrapper = document.createElement("div");
             _this.wrapper = wrapper;
             wrapper.classList.add("ui-gauge");
@@ -709,28 +715,28 @@
             scaleWarning.classList.add("ui-gauge-meter__scale--warning");
             scaleGroup.appendChild(scaleWarning);
             _this.addHook(function (_a) {
-                var leftScale = _a.leftScale, bottomScale = _a.bottomScale, ir = _a.ir, arcFlag = _a.arcFlag, rightScale = _a.rightScale, thickness = _a.thickness, innerCircumference = _a.innerCircumference, steps = _a.steps, max = _a.max;
-                if (!steps || steps.length < 3 || !steps[1] || !steps[2]) {
+                var leftScale = _a.leftScale, bottomScale = _a.bottomScale, ir = _a.ir, arcFlag = _a.arcFlag, rightScale = _a.rightScale, thickness = _a.thickness, innerCircumference = _a.innerCircumference, steps = _a.steps, min = _a.min, max = _a.max;
+                if (!steps || steps.length < 3 || typeof steps[1] !== "number" || typeof steps[2] !== "number") {
                     return;
                 }
                 scaleWarning.setAttribute("d", "M " + leftScale + " " + bottomScale + " A " + ir + " " + ir + " 0 " + arcFlag + " 1 " + rightScale + " " + bottomScale);
                 scaleWarning.setAttribute("stroke-width", thickness.toString());
-                scaleWarning.setAttribute("stroke-dasharray", innerCircumference * steps[1] / max + " " + innerCircumference * (steps[2] - steps[1]) / max + " " + innerCircumference);
-            }, ["size", "thickness", "circle", "steps", "max"]);
+                scaleWarning.setAttribute("stroke-dasharray", innerCircumference * (steps[1] - min) / (max - min) + " " + innerCircumference * (steps[2] - steps[1]) / (max - min) + " " + innerCircumference);
+            }, ["size", "thickness", "circle", "steps", "min", "max"]);
             var scaleError = makeSVGElement("path");
             scaleError.classList.add("ui-gauge-meter__scale");
             scaleError.classList.add("ui-gauge-meter__scale--error");
             scaleGroup.appendChild(scaleError);
             _this.addHook(function (_a) {
                 var _b;
-                var leftScale = _a.leftScale, bottomScale = _a.bottomScale, ir = _a.ir, arcFlag = _a.arcFlag, rightScale = _a.rightScale, thickness = _a.thickness, innerCircumference = _a.innerCircumference, steps = _a.steps, max = _a.max;
-                if (!steps || steps.length < 4 || !steps[0] && !steps[3]) {
+                var leftScale = _a.leftScale, bottomScale = _a.bottomScale, ir = _a.ir, arcFlag = _a.arcFlag, rightScale = _a.rightScale, thickness = _a.thickness, innerCircumference = _a.innerCircumference, steps = _a.steps, min = _a.min, max = _a.max;
+                if (!steps || steps.length < 4 || typeof steps[0] !== "number" && typeof steps[3] !== "number") {
                     return;
                 }
                 scaleError.setAttribute("d", "M " + leftScale + " " + bottomScale + " A " + ir + " " + ir + " 0 " + arcFlag + " 1 " + rightScale + " " + bottomScale);
                 scaleError.setAttribute("stroke-width", thickness.toString());
-                scaleError.setAttribute("stroke-dasharray", innerCircumference * steps[0] / max + " " + innerCircumference * ((_b = steps[3]) !== null && _b !== void 0 ? _b : max - steps[0]) / max + " " + innerCircumference);
-            }, ["size", "thickness", "circle", "steps", "max"]);
+                scaleError.setAttribute("stroke-dasharray", innerCircumference * (steps[0] - min) / (max - min) + " " + innerCircumference * (((_b = steps[3]) !== null && _b !== void 0 ? _b : max) - steps[0]) / (max - min) + " " + innerCircumference);
+            }, ["size", "thickness", "circle", "steps", "min", "max"]);
             //ticks
             var ticks = makeSVGElement("path");
             ticks.classList.add("ui-gauge-meter__ticks");
@@ -758,18 +764,17 @@
                 subTicks.setAttribute("stroke-dashoffset", "" + tickSize * .5);
                 subTicks.setAttribute("stroke-dasharray", "" + subDasharray.join(' '));
                 subTicks.setAttribute("visibility", subDasharray.length ? "" : "hidden");
-            }, ["size", "thickness", "ticks", "circle"]);
+            }, ["size", "thickness", "ticks", "subTicks", "circle"]);
             //tick labels
             var tickLabels = [];
             var tickLabelGroup = makeSVGElement("g");
             tickShiftGroup.appendChild(tickLabelGroup);
             _this.addHook(function (_a) {
-                var ticks = _a.ticks, circle = _a.circle, hs = _a.hs, tlr = _a.tlr, max = _a.max;
+                var ticks = _a.ticks, circle = _a.circle, hs = _a.hs, tlr = _a.tlr, min = _a.min, max = _a.max;
                 tickLabels.forEach(function (tl) {
                     tl.remove();
                 });
                 tickLabels.length = 0;
-                //TODO properly update tick labels if other size options change
                 __spreadArray([], Array(ticks).fill(null).map(function (v, i) { return i; }), true).map(function (i, idx) {
                     var a = idx * Math.PI * 2 * circle / (ticks - 1) + Math.PI * .5 + (1 - circle) * Math.PI;
                     var x = parseFloat((hs + Math.cos(a) * tlr).toFixed(4));
@@ -778,11 +783,11 @@
                     tl.classList.add("ui-gauge-meter__ticklabel");
                     tl.setAttribute("x", "" + x);
                     tl.setAttribute("y", "" + y);
-                    tl.innerHTML = (idx * max / (ticks - 1)).toFixed(1).replace(/[,.]0$/, '');
+                    tl.innerHTML = (min + idx * (max - min) / (ticks - 1)).toFixed(1).replace(/[,.]0$/, '');
                     tickLabels.push(tl);
                     tickLabelGroup.appendChild(tl);
                 });
-            }, ["ticks"]);
+            }, ["ticks", "min", "max", "size", "tlr"]);
             //label
             var label = makeSVGElement("text");
             label.classList.add("ui-gauge-meter__label");
@@ -803,7 +808,7 @@
             _this.addHook(function (_a) {
                 var hs = _a.hs, needleRotation = _a.needleRotation;
                 needleGroup.setAttribute("style", "transform: rotate(" + needleRotation + "deg); transform-origin: " + hs + "px " + hs + "px;");
-            }, ["size", "value"]);
+            }, ["size", "value", "min", "max", "circle"]);
             var needle = makeSVGElement("path");
             needleGroup.appendChild(needle);
             _this.addHook(function (_a) {
@@ -837,7 +842,7 @@
             return _this;
         }
         MeterGauge.prototype.updateData = function (combinedOptions) {
-            var value = combinedOptions.value, size = combinedOptions.size, color = combinedOptions.color, id = combinedOptions.id, thickness = combinedOptions.thickness, steps = combinedOptions.steps, tickLabelsInside = combinedOptions.tickLabelsInside, circle = combinedOptions.circle, max = combinedOptions.max, ticks = combinedOptions.ticks, subTicks = combinedOptions.subTicks, tickLabelOffset = combinedOptions.tickLabelOffset;
+            var value = combinedOptions.value, size = combinedOptions.size, color = combinedOptions.color, id = combinedOptions.id, thickness = combinedOptions.thickness, steps = combinedOptions.steps, tickLabelsInside = combinedOptions.tickLabelsInside, circle = combinedOptions.circle, min = combinedOptions.min, max = combinedOptions.max, ticks = combinedOptions.ticks, subTicks = combinedOptions.subTicks, tickLabelOffset = combinedOptions.tickLabelOffset;
             var sizeScale = size / 100;
             //precalculate various values
             var r = (size - thickness) * .5;
@@ -856,7 +861,7 @@
             var tickSize = 1;
             var subTickSize = .5;
             var needleLength = hs + thickness;
-            var needleRotation = 360 * circle * value / max - 180 * circle;
+            var needleRotation = 360 * circle * (value - min) / (max - min) - 180 * circle;
             var dasharray = [tickSize, circumference / (ticks - 1) - tickSize];
             var subDasharray = [];
             if (subTicks > 0) {
