@@ -13,7 +13,7 @@ import com.vaadin.ui.JavaScriptFunction;
 
 import elemental.json.JsonArray;
 
-@JavaScript({"vaadin://chartjs/v3/chart.min.js", "vaadin://chartjs/Moment.js", "vaadin://chartjs/v3/chartjs-adapter-moment.min.js", "vaadin://chartjs/hammer.min.js", "vaadin://chartjs/v3/chartjs-connector.js", "vaadin://chartjs/v3/chartjs-plugin-datalabels.min.js", "vaadin://chartjs/v3/chartjs-plugin-doughnutlabel-rebourne.min.js"})
+@JavaScript({"vaadin://chartjs/v3/chart.min.js", "vaadin://chartjs/moment-with-locales.min.js", "vaadin://chartjs/v3/chartjs-adapter-moment.min.js", "vaadin://chartjs/hammer.min.js", "vaadin://chartjs/v3/chartjs-plugin-zoom.min.js", "vaadin://chartjs/v3/chartjs-plugin-datalabels.min.js", "vaadin://chartjs/v3/chartjs-plugin-doughnutlabel-rebourne.min.js", "vaadin://chartjs/v3/chartjs-connector.js"})
 @StyleSheet("vaadin://chartjs/chartjs-connector.css")
 public class ChartJs extends AbstractJavaScriptComponent {
 
@@ -23,10 +23,6 @@ public class ChartJs extends AbstractJavaScriptComponent {
      * property name.
      */
     private static final AtomicInteger nextMenuId = new AtomicInteger(0);
-
-//    public enum ImageType {
-//        PNG
-//    }
 
     public interface DataPointClickListener {
         void onDataPointClick(int datasetIndex, int dataIndex);

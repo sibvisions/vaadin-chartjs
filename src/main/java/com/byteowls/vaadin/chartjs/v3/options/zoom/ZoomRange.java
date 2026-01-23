@@ -1,52 +1,59 @@
 package com.byteowls.vaadin.chartjs.v3.options.zoom;
 
-import elemental.json.Json;
-import elemental.json.JsonObject;
-
 import java.io.Serializable;
 
-import com.byteowls.vaadin.chartjs.v3.options.Zoom;
 import com.byteowls.vaadin.chartjs.v3.utils.And;
 import com.byteowls.vaadin.chartjs.v3.utils.JUtils;
 import com.byteowls.vaadin.chartjs.v3.utils.JsonBuilder;
 
-public class ZoomRange<T> extends And<Zoom<T>> implements JsonBuilder, Serializable {
+import elemental.json.Json;
+import elemental.json.JsonObject;
 
-    private static final long serialVersionUID = 5655614586948910546L;
+public class ZoomRange<T> extends And<Limits<T>> implements JsonBuilder, Serializable {
 
-    private Object x;
-    private Object y;
+    private static final long serialVersionUID = 5017169168790295313L;
 
-    public ZoomRange(Zoom<T> parent) {
+    private Object min;
+    private Object max;
+    private Double minRange;
+
+    public ZoomRange(Limits<T> parent) {
         super(parent);
     }
 
-    public ZoomRange<T> x(double x) {
-        this.x = x;
+    public ZoomRange<T> min(double min) {
+        this.min = min;
         return this;
     }
 
-    public ZoomRange<T> x(String x) {
-        this.x = x;
+    public ZoomRange<T> min(String min) {
+        this.min = min;
         return this;
     }
 
-    public ZoomRange<T> y(double y) {
-        this.y = y;
+    public ZoomRange<T> max(double max) {
+        this.max = max;
         return this;
     }
 
-    public ZoomRange<T> y(String x) {
-        this.x = x;
+    public ZoomRange<T> max(String max) {
+        this.max = max;
         return this;
     }
 
+    public ZoomRange<T> minRange(double minRange) {
+        this.minRange = minRange;
+        return this;
+    }
 
     @Override
     public JsonObject buildJson() {
         JsonObject obj = Json.createObject();
-        setValue(obj, "x", x);
-        setValue(obj, "y", y);
+        
+        setValue(obj, "min", min);
+        setValue(obj, "max", max);
+        JUtils.putNotNull(obj, "minRange", minRange);
+        
         return obj;
     }
 
@@ -57,5 +64,4 @@ public class ZoomRange<T> extends And<Zoom<T>> implements JsonBuilder, Serializa
             JUtils.putNotNull(obj, "x", (Double) value);
         }
     }
-
 }

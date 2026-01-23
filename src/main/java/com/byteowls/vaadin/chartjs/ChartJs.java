@@ -13,7 +13,7 @@ import com.vaadin.ui.JavaScriptFunction;
 
 import elemental.json.JsonArray;
 
-@JavaScript({"vaadin://chartjs/Moment.js", "vaadin://chartjs/Chart.min.js", "vaadin://chartjs/hammer.min.js", "vaadin://chartjs/chartjs-plugin-zoom.min.js",
+@JavaScript({"vaadin://chartjs/Chart.min.js", "vaadin://chartjs/moment-with-locales.min.js", "vaadin://chartjs/hammer.min.js", "vaadin://chartjs/chartjs-plugin-zoom.min.js",
     "vaadin://chartjs/chartjs-plugin-annotation.min.js", "vaadin://chartjs/chartjs-connector.js"})
 @StyleSheet("vaadin://chartjs/chartjs-connector.css")
 public class ChartJs extends AbstractJavaScriptComponent {

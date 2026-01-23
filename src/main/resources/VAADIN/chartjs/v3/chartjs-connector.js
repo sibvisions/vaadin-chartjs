@@ -24,6 +24,7 @@ window.com_byteowls_vaadin_chartjs_v3_ChartJs = function() {
         stateChangedCnt++;
         var state = this.getState();
         loggingEnabled = state.loggingEnabled;
+        
         if (loggingEnabled) {
             console.log("chartjs: accessing onStateChange the "+stateChangedCnt+". time");
         }
@@ -64,34 +65,44 @@ window.com_byteowls_vaadin_chartjs_v3_ChartJs = function() {
             if (loggingEnabled) {
                 console.log("chartjs: configuration is\n", JSON.stringify(state.configurationJson, null, 2));
             }
+            state.configurationJson.options.plugins = state.configurationJson.options.plugins || {};
+            
+            if (state.configurationJson.options.plugins.zoom) {
+                state.configurationJson.options.plugins.zoom = JSON.parse(JSON.stringify(state.configurationJson.options.plugins.zoom));
+            }
+
             // parse callback functions
             this.parseCallbacks(state.configurationJson);
 
             Chart.register(ChartDataLabels);
             Chart.register(DoughnutLabel);
-            /*Chart.plugins.register({
-                beforeDraw: function(chartInstance) {
-                    if (loggingEnabled) {
-                        console.log("chartjs: rendering, for export: " + self.renderingExport);
-                    }
-                    // the image is re-rendered for export
-                    if (self.renderingExport) {
-                        // set a white background to the chart
-                        if (state.downloadSetWhiteBackground) {
-                            var ctx = chartInstance.chart.ctx;
-                            ctx.fillStyle = 'white';
-                            ctx.fillRect(0, 0, chartInstance.chart.width, chartInstance.chart.height);
-                        }
-                    }
-                }
-            });*/
-
+            Chart.register(ChartZoom);
+            
+            moment.locale(state.configurationJson.options.locale);
+            if (loggingEnabled) {
+              console.log("Locale: ", state.configurationJson.options.locale, " Momentum Locale: ", moment.locale());
+            }
+                
             chartjs = new Chart(canvas, state.configurationJson);
-            // #69 the zoom/plugin captures the wheel event so no vertical scrolling is enabled if mouse is on
-            /*if (state.configurationJson && !state.configurationJson.options.zoom) {
-                chartjs.ctx.canvas.removeEventListener('wheel', chartjs.zoom._wheelHandler );
-            }*/
 
+            canvas.addEventListener('dblclick', function(event) {
+                const reset = chartjs.config.options.plugins?.zoom?.reset;
+                const key = reset?.modifierKey;
+
+                if (loggingEnabled) {
+                    console.log("Reset enabled: ", reset?.enabled, "  Modifier: ", key);
+                }
+
+                if (reset?.enabled && 
+                    (!key || 
+                     (key === 'ctrl' && event.ctrlKey) ||
+                     (key === 'shift' && event.shiftKey) ||
+                     (key === 'alt' && event.altKey) ||
+                     (key === 'meta' && event.metaKey))) {
+                    chartjs.resetZoom();
+                }
+            });
+             
             // only enable if there is a listener
             if (state.dataPointClickListenerFound) {
                 if (loggingEnabled) {
@@ -129,11 +140,15 @@ window.com_byteowls_vaadin_chartjs_v3_ChartJs = function() {
             }
         } else {
             // update the data
-            chartjs.config.data = this.getState().configurationJson.data;
+            chartjs.config.data = state.configurationJson.data;
             // update config: options must be copied separately, just copying the "options" object does not work
-            chartjs.config.options.legend = this.getState().configurationJson.options.legend;
-            chartjs.config.options.annotation = this.getState().configurationJson.options.annotation;
-            chartjs.config.options.scales = this.getState().configurationJson.options.scales;
+            chartjs.config.options.legend = state.configurationJson.options.legend;
+            chartjs.config.options.annotation = state.configurationJson.options.annotation;
+            chartjs.config.options.scales = state.configurationJson.options.scales;
+            if (state.configurationJson.options.plugins.zoom) {
+                chartjs.config.options.plugins.zoom = JSON.parse(JSON.stringify(state.configurationJson.options.plugins.zoom));
+            }
+            
             chartjs.update();
         }
 

@@ -31,10 +31,9 @@ public abstract class AbstractOptions<T> implements JsonBuilder, Serializable {
     private Animation<T> animation;
     private Legend<T> legend;
     private Element<T> elements;
-    private Pan<T> pan;
-    private Zoom<T> zoom;
     private DataLabels<T> dataLabels;
     private DoughnutPlugin<T> doughnutPlugin;
+    private ZoomPlugin<T> zoomPlugin = new ZoomPlugin<>(getThis());
 
     public AbstractOptions(ChartConfig chartConfig) {
         this.chartConfig = chartConfig;
@@ -158,25 +157,14 @@ public abstract class AbstractOptions<T> implements JsonBuilder, Serializable {
         return elements;
     }
 
-
-    /**
-     * Step into the pan configuration.
-     */
-    public Pan<T> pan() {
-        if (pan == null) {
-            pan = new Pan<>(getThis());
-        }
-        return pan;
-    }
-
     /**
      * Step into the zoom configuration
      */
-    public Zoom<T> zoom() {
-        if (zoom == null) {
-            zoom = new Zoom<>(getThis());
+    public ZoomPlugin<T> zoomPlugin() {
+        if (zoomPlugin == null) {
+            zoomPlugin = new ZoomPlugin<>(getThis());
         }
-        return zoom;
+        return zoomPlugin;
     }
     
     /**
@@ -214,6 +202,7 @@ public abstract class AbstractOptions<T> implements JsonBuilder, Serializable {
         JUtils.putNotNull(plugins, "tooltip", tooltips);
         JUtils.putNotNull(plugins, "datalabels", dataLabels);
         JUtils.putNotNull(plugins, "doughnutlabel", doughnutPlugin);
+        JUtils.putNotNull(plugins, "zoom", zoomPlugin);
         
         JUtils.putNotNull(map, "plugins", plugins);
         
@@ -229,8 +218,7 @@ public abstract class AbstractOptions<T> implements JsonBuilder, Serializable {
         JUtils.putNotNull(map, "animation", animation);
         JUtils.putNotNull(map, "legend", legend);
         JUtils.putNotNull(map, "elements", elements);
-        JUtils.putNotNull(map, "pan", pan);
-        JUtils.putNotNull(map, "zoom", zoom);
+        
         return map;
     }
 
