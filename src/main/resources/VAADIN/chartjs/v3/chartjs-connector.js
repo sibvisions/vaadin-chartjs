@@ -65,11 +65,11 @@ window.com_byteowls_vaadin_chartjs_v3_ChartJs = function() {
             if (loggingEnabled) {
                 console.log("chartjs: configuration is\n", JSON.stringify(state.configurationJson, null, 2));
             }
-            state.configurationJson.options.plugins = state.configurationJson.options.plugins || {};
+            state.configurationJson.options.plugins = state.configurationJson.options.plugins ?? {};
             
-            if (state.configurationJson.options.plugins.zoom) {
-                state.configurationJson.options.plugins.zoom = JSON.parse(JSON.stringify(state.configurationJson.options.plugins.zoom));
-            }
+            state.configurationJson.options.plugins.legend = JSON.parse(JSON.stringify(state.configurationJson.options.plugins.legend ?? {}));
+            state.configurationJson.options.plugins.annotation = JSON.parse(JSON.stringify(state.configurationJson.options.plugins.annotation ?? {}));
+            state.configurationJson.options.plugins.zoom = JSON.parse(JSON.stringify(state.configurationJson.options.plugins.zoom ?? {}));
 
             // parse callback functions
             this.parseCallbacks(state.configurationJson);
@@ -124,30 +124,33 @@ window.com_byteowls_vaadin_chartjs_v3_ChartJs = function() {
                 if (loggingEnabled) {
                     console.log("chartjs: add legend click callback");
                 }
-                chartjs.legend.options.onClick = chartjs.options.legend.onClick = function (t,e) {
-                    var datasets = this.chart.data.datasets;
-                    var dataset = datasets[e.datasetIndex];
-                    dataset.hidden= !dataset.hidden;
-                    this.chart.update();
-                    var ret = [];
-                    for (var i = 0; i < datasets.length ; i++ ) {
+                chartjs.options.plugins.legend.onClick = function (e, legendItem, legend) {
+                    const chart = legend.chart;
+                    const datasets = chart.data.datasets;
+                    const dataset = datasets[legendItem.datasetIndex];
+
+                    dataset.hidden = !dataset.hidden;
+                    chart.update();
+
+                    const visible = [];
+                    for (let i = 0; i < datasets.length; i++) {
                         if (!datasets[i].hidden) {
-                            ret.push(i);
+                            visible.push(i);
                         }
                     }
-                    self.onLegendClick(e.datasetIndex,!dataset.hidden, ret);
-                }
+                    self.onLegendClick(legendItem.datasetIndex, !dataset.hidden, visible);
+                };
             }
         } else {
             // update the data
             chartjs.config.data = state.configurationJson.data;
             // update config: options must be copied separately, just copying the "options" object does not work
-            chartjs.config.options.legend = state.configurationJson.options.legend;
-            chartjs.config.options.annotation = state.configurationJson.options.annotation;
+            const onClickFunc = chartjs.options.plugins.legend.onClick;
+            state.configurationJson.options.plugins.legend = JSON.parse(JSON.stringify(state.configurationJson.options.plugins.legend ?? {}));
+            chartjs.options.plugins.legend.onClick = onClickFunc;
+            state.configurationJson.options.plugins.annotation = JSON.parse(JSON.stringify(state.configurationJson.options.plugins.annotation ?? {}));
             chartjs.config.options.scales = state.configurationJson.options.scales;
-            if (state.configurationJson.options.plugins.zoom) {
-                chartjs.config.options.plugins.zoom = JSON.parse(JSON.stringify(state.configurationJson.options.plugins.zoom));
-            }
+            state.configurationJson.options.plugins.zoom = JSON.parse(JSON.stringify(state.configurationJson.options.plugins.zoom ?? {}));
             
             chartjs.update();
         }

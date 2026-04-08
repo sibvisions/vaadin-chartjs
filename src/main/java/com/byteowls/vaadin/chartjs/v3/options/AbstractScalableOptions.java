@@ -50,9 +50,13 @@ public abstract class AbstractScalableOptions<T extends AbstractScalableOptions<
     @Override
     public JsonObject buildJson() {
         JsonObject map = super.buildJson();
+        
+        JsonObject plugins = map.getObject("plugins");
+        JUtils.putNotNull(plugins, "annotation", annotation);        
+
         JUtils.putNotNull(map, "scales", scales);
-        JUtils.putNotNull(map, "annotation", annotation);
         JUtils.putNotNull(map, "indexAxis", indexAxis);
+        
         return map;
     }
 
