@@ -33,7 +33,7 @@ public class TimeLineDataset extends TimeDoubleDataset<TimeLineDataset> {
     private Integer fillToDatasetIndex;
     private FillMode fillMode;
     private CubicInterpolationMode cubicInterpolationMode;
-    private Double lineTension;
+    private Double tension;
     private String backgroundColor;
     private Integer borderWidth;
     private String borderColor;
@@ -143,8 +143,8 @@ public class TimeLineDataset extends TimeDoubleDataset<TimeLineDataset> {
     /**
      * Bezier curve tension of the line. Set to 0 to draw straightlines.
      */
-    public TimeLineDataset lineTension(double lineTension) {
-        this.lineTension = lineTension;
+    public TimeLineDataset tension(double tension) {
+        this.tension = tension;
         return this;
     }
 
@@ -338,7 +338,7 @@ public class TimeLineDataset extends TimeDoubleDataset<TimeLineDataset> {
             JUtils.putNotNull(map, "cubicInterpolationMode", cubicInterpolationMode.toString().toLowerCase());
         }
         JUtils.putNotNull(map, "hidden", hidden);
-        JUtils.putNotNull(map, "lineTension", lineTension);
+        JUtils.putNotNull(map, "tension", tension);
         JUtils.putNotNull(map, "backgroundColor", backgroundColor);
         JUtils.putNotNull(map, "borderWidth", borderWidth);
         JUtils.putNotNull(map, "borderColor", borderColor);

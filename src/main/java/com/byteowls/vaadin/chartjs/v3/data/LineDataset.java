@@ -31,7 +31,7 @@ public class LineDataset extends ScatterDataset {
     private Integer fillToDatasetIndex;
     private FillMode fillMode;
     private CubicInterpolationMode cubicInterpolationMode;
-    private Double lineTension;
+    private Double tension;
     private String backgroundColor;
     private Integer borderWidth;
     private String borderColor;
@@ -141,8 +141,8 @@ public class LineDataset extends ScatterDataset {
     /**
      * Bezier curve tension of the line. Set to 0 to draw straightlines.
      */
-    public LineDataset lineTension(double lineTension) {
-        this.lineTension = lineTension;
+    public LineDataset tension(double tension) {
+        this.tension = tension;
         return this;
     }
 
@@ -301,7 +301,7 @@ public class LineDataset extends ScatterDataset {
     }
 
     /**
-     * If true, the line is shown as a steeped line and 'lineTension' will be ignored
+     * If true, the line is shown as a steeped line and 'tension' will be ignored
      */
     public LineDataset stepped(boolean pStepped) {
         stepped = Boolean.valueOf(pStepped);
@@ -334,7 +334,7 @@ public class LineDataset extends ScatterDataset {
             JUtils.putNotNull(map, "cubicInterpolationMode", cubicInterpolationMode.toString().toLowerCase());
         }
         JUtils.putNotNull(map, "hidden", hidden);
-        JUtils.putNotNull(map, "lineTension", lineTension);
+        JUtils.putNotNull(map, "tension", tension);
         JUtils.putNotNull(map, "backgroundColor", backgroundColor);
         JUtils.putNotNull(map, "borderWidth", borderWidth);
         JUtils.putNotNull(map, "borderColor", borderColor);

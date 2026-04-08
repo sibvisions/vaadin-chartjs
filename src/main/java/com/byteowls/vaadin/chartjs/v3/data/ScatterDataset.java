@@ -32,7 +32,7 @@ public class ScatterDataset implements Dataset<ScatterDataset, ScatterData> {
     private String xAxisID;
     private String yAxisID;
     private Boolean fill;
-    private Double lineTension;
+    private Double tension;
     private String backgroundColor;
     private Integer borderWidth;
     private String borderColor;
@@ -214,8 +214,8 @@ public class ScatterDataset implements Dataset<ScatterDataset, ScatterData> {
     /**
      * Bezier curve tension of the line. Set to 0 to draw straightlines.
      */
-    public ScatterDataset lineTension(double lineTension) {
-        this.lineTension = lineTension;
+    public ScatterDataset tension(double tension) {
+        this.tension = tension;
         return this;
     }
 
@@ -393,7 +393,7 @@ public class ScatterDataset implements Dataset<ScatterDataset, ScatterData> {
         JUtils.putNotNull(map, "yAxisID", yAxisID);
         JUtils.putNotNull(map, "fill", fill);
         JUtils.putNotNull(map, "hidden", hidden);
-        JUtils.putNotNull(map, "lineTension", lineTension);
+        JUtils.putNotNull(map, "tension", tension);
         JUtils.putNotNull(map, "backgroundColor", backgroundColor);
         JUtils.putNotNull(map, "borderWidth", borderWidth);
         JUtils.putNotNull(map, "borderColor", borderColor);

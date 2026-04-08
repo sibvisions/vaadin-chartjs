@@ -24,7 +24,7 @@ public class RadarDataset extends DoubleDataset<RadarDataset> {
     private Boolean fillToPlus;
     private Integer fillToDatasetIndex;
     private FillMode fillMode;
-    private Double lineTension;
+    private Double tension;
     private String backgroundColor;
     private Integer borderWidth;
     private String borderColor;
@@ -103,8 +103,8 @@ public class RadarDataset extends DoubleDataset<RadarDataset> {
     /**
      * Bezier curve tension of the line. Set to 0 to draw straightlines.
      */
-    public RadarDataset lineTension(double lineTension) {
-        this.lineTension = lineTension;
+    public RadarDataset tension(double tension) {
+        this.tension = tension;
         return this;
     }
 
@@ -264,7 +264,7 @@ public class RadarDataset extends DoubleDataset<RadarDataset> {
         }
 
         JUtils.putNotNull(map, "hidden", hidden);
-        JUtils.putNotNull(map, "lineTension", lineTension);
+        JUtils.putNotNull(map, "tension", tension);
         JUtils.putNotNull(map, "backgroundColor", backgroundColor);
         JUtils.putNotNull(map, "borderWidth", borderWidth);
         JUtils.putNotNull(map, "borderColor", borderColor);

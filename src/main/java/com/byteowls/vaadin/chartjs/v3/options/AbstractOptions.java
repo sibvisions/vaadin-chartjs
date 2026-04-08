@@ -213,10 +213,8 @@ public abstract class AbstractOptions<T> implements JsonBuilder, Serializable {
         JUtils.putNotNull(map, "devicePixelRatio", devicePixelRatio);
         JUtils.putNotNull(map, "locale", locale);
         JUtils.putNotNull(map, "events", events);
-        JUtils.putNotNull(map, "title", title);
         JUtils.putNotNull(map, "hover", hover);
         JUtils.putNotNull(map, "animation", animation);
-        JUtils.putNotNull(map, "legend", legend);
         JUtils.putNotNull(map, "elements", elements);
         
         return map;
